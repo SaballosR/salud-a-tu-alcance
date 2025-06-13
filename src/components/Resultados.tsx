@@ -1,57 +1,77 @@
 import React from 'react';
-import '../index.css';
+import { generarPDF } from '../utils/generarPDF';
+import '../index.css'; // Asegúrate de tener tus estilos aplicados aquí
 
-interface DatosUsuario {
-  nombre: string;
-  apellido: string;
-  edad: number;
-  peso: number;
-  estatura: number;
-  actividad: string;
-  objetivo: string;
-  imc: number;
-  clasificacion: string;
-  riesgo: string;
-  tmb: number;
-  calorias: number;
-  menuSemanal: string[];
-  recomendaciones: string[];
-  actividadFisica: string[];
-  objetivoDescripcion: string;
+interface ResultadosProps {
+  datos: {
+    nombre: string;
+    apellido: string;
+    imc: number;
+    clasificacion: string;
+    riesgo: string;
+    tmb: number;
+    calorias: number;
+    objetivo: string;
+    menuSemanal: string[];
+    recomendaciones: string[];
+    actividadFisica: string[];
+  };
 }
 
-const Resultados: React.FC<{ datos: DatosUsuario }> = ({ datos }) => {
+const Resultados: React.FC<{ datos: ResultadosProps['datos'] }> = ({ datos }) => {
+  const {
+    nombre,
+    apellido,
+    imc,
+    clasificacion,
+    riesgo,
+    tmb,
+    calorias,
+    objetivo,
+    menuSemanal,
+    recomendaciones,
+    actividadFisica,
+  } = datos;
+
   return (
-    <div className="resultados">
-      <h2 className="subtitulo">Resultados para {datos.nombre} {datos.apellido}</h2>
+    <div className="resultados-container">
+      <h1 className="titulo-app">Salud a tu Alcance</h1>
 
-      <p><strong>IMC:</strong> {datos.imc.toFixed(2)}</p>
-      <p><strong>Clasificación del peso:</strong> {datos.clasificacion}</p>
-      <p><strong>Riesgo de salud:</strong> {datos.riesgo}</p>
-      <p><strong>Tasa Metabólica Basal (TMB):</strong> {datos.tmb.toFixed(2)} kcal</p>
-      <p><strong>Requerimiento calórico diario:</strong> {datos.calorias.toFixed(0)} kcal</p>
-      <p><strong>Objetivo:</strong> {datos.objetivoDescripcion}</p>
+      <div className="resultado-card">
+        <h2>Resumen personalizado para <span className="resaltar">{nombre} {apellido}</span></h2>
 
-      <h3 className="subtitulo">Menú semanal (con medidas intuitivas)</h3>
-      <ul>
-        {datos.menuSemanal.map((item, index) => (
-          <li key={index}>🍽️ {item}</li>
-        ))}
-      </ul>
+        <p><strong>IMC:</strong> {imc.toFixed(2)}</p>
+        <p><strong>Clasificación:</strong> {clasificacion}</p>
+        <p><strong>Riesgo de salud:</strong> {riesgo}</p>
+        <p><strong>Tasa Metabólica Basal (TMB):</strong> {tmb.toFixed(2)} kcal</p>
+        <p><strong>Requerimiento calórico diario:</strong> {calorias.toFixed(0)} kcal</p>
+        <p><strong>Objetivo:</strong> {objetivo.charAt(0).toUpperCase() + objetivo.slice(1)}</p>
 
-      <h3 className="subtitulo">Recomendaciones de salud</h3>
-      <ul>
-        {datos.recomendaciones.map((rec, index) => (
-          <li key={index}>✅ {rec}</li>
-        ))}
-      </ul>
+        <h3>Menú semanal personalizado:</h3>
+        <ul>
+          {menuSemanal.map((dia, index) => (
+            <li key={index}>{dia}</li>
+          ))}
+        </ul>
 
-      <h3 className="subtitulo">Actividad física sugerida</h3>
-      <ul>
-        {datos.actividadFisica.map((act, index) => (
-          <li key={index}>🏃 {act}</li>
-        ))}
-      </ul>
+        <h3>Recomendaciones generales:</h3>
+        <ul>
+          {recomendaciones.map((rec, idx) => (
+            <li key={idx}>{rec}</li>
+          ))}
+        </ul>
+
+        <h3>Actividad física sugerida:</h3>
+        <ul>
+          {actividadFisica.map((act, idx) => (
+            <li key={idx}>{act}</li>
+          ))}
+        </ul>
+
+        <button className="btn-pdf" onClick={() => generarPDF(datos)}>
+          Descargar PDF
+        </button>
+      </div>
     </div>
   );
 };

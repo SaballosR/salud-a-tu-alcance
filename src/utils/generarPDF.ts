@@ -1,71 +1,73 @@
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import logo from '/logo.png'; // Asegúrate de tener este archivo en /public o /src/assets y referenciarlo correctamente
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 interface DatosUsuario {
   nombre: string;
+  apellido: string;
   imc: number;
   clasificacion: string;
   riesgo: string;
   tmb: number;
   calorias: number;
   objetivo: string;
-  menu: string[];
+  menuSemanal: string[]; // <- cambio clave: era `menu`, ahora debe coincidir
   recomendaciones: string[];
-  actividad: string[];
+  actividadFisica: string[];
 }
 
 export function generarPDF(datos: DatosUsuario) {
   const doc = new jsPDF();
-  const anchoPagina = doc.internal.pageSize.getWidth();
 
-  // Título y Logo
-  doc.setFontSize(18);
-  doc.setTextColor(0, 128, 0); // Verde ecológico
-  doc.text("Salud a tu Alcance", anchoPagina / 2, 20, { align: 'center' });
+  doc.setFontSize(16);
+  doc.setTextColor(34, 139, 34); // Verde ecológico
+  doc.text("Salud a tu Alcance", 105, 15, { align: "center" });
 
-  const img = new Image();
-  img.src = logo;
-  doc.addImage(img, 'PNG', anchoPagina / 2 - 20, 25, 40, 40);
-
-  doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
-  doc.text(`Nombre: ${datos.nombre}`, 15, 75);
-  doc.text(`IMC: ${datos.imc.toFixed(2)} - ${datos.clasificacion}`, 15, 85);
-  doc.text(`Riesgo de salud: ${datos.riesgo}`, 15, 95);
-  doc.text(`TMB: ${datos.tmb.toFixed(2)} kcal`, 15, 105);
-  doc.text(`Requerimiento calórico diario: ${datos.calorias.toFixed(2)} kcal`, 15, 115);
-  doc.text(`Objetivo: ${datos.objetivo}`, 15, 125);
+  doc.setFontSize(12);
+  doc.text(`Nombre: ${datos.nombre} ${datos.apellido}`, 20, 30);
+  doc.text(`IMC: ${datos.imc.toFixed(2)} (${datos.clasificacion})`, 20, 40);
+  doc.text(`Riesgo de salud: ${datos.riesgo}`, 20, 50);
+  doc.text(`Tasa Metabólica Basal (TMB): ${datos.tmb.toFixed(2)} kcal`, 20, 60);
+  doc.text(`Requerimiento calórico diario: ${datos.calorias.toFixed(0)} kcal`, 20, 70);
+  doc.text(`Objetivo: ${datos.objetivo}`, 20, 80);
 
   // Menú semanal
+  doc.setFontSize(14);
+  doc.setTextColor(0, 100, 0);
+  doc.text("Menú semanal personalizado", 105, 95, { align: "center" });
+
+  doc.setFontSize(10);
   autoTable(doc, {
-    startY: 135,
-    head: [['Menú Semanal']],
-    body: datos.menu.map((dia) => [dia]),
-    styles: { cellWidth: 'wrap', halign: 'left' },
-    theme: 'grid',
-    headStyles: { fillColor: [0, 128, 0] },
+    startY: 100,
+    head: [["Día", "Comidas"]],
+    body: datos.menuSemanal.map((item, index) => {
+      const dia = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"][index];
+      return [dia, item.replace(`${dia}: `, "")];
+    }),
+    styles: { cellWidth: "wrap" },
+    columnStyles: { 1: { cellWidth: 140 } },
   });
 
   // Recomendaciones
-  autoTable(doc, {
-    startY: doc.lastAutoTable.finalY + 10,
-    head: [['Recomendaciones']],
-    body: datos.recomendaciones.map((rec) => [rec]),
-    styles: { cellWidth: 'wrap', halign: 'left' },
-    theme: 'striped',
-    headStyles: { fillColor: [0, 128, 0] },
+  doc.addPage();
+  doc.setFontSize(14);
+  doc.setTextColor(0, 100, 0);
+  doc.text("Recomendaciones de salud", 105, 20, { align: "center" });
+
+  doc.setFontSize(11);
+  datos.recomendaciones.forEach((reco, index) => {
+    doc.text(`• ${reco}`, 20, 35 + index * 10);
   });
 
   // Actividad física
-  autoTable(doc, {
-    startY: doc.lastAutoTable.finalY + 10,
-    head: [['Actividad Física Sugerida']],
-    body: datos.actividad.map((act) => [act]),
-    styles: { cellWidth: 'wrap', halign: 'left' },
-    theme: 'striped',
-    headStyles: { fillColor: [0, 128, 0] },
+  doc.setFontSize(14);
+  doc.setTextColor(0, 100, 0);
+  doc.text("Actividad física sugerida", 105, 90, { align: "center" });
+
+  doc.setFontSize(11);
+  datos.actividadFisica.forEach((act, index) => {
+    doc.text(`• ${act}`, 20, 105 + index * 10);
   });
 
-  doc.save('Plan-Salud-a-tu-Alcance.pdf');
+  doc.save(`PlanSalud_${datos.nombre}_${datos.apellido}.pdf`);
 }
