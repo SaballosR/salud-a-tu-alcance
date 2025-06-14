@@ -1,156 +1,181 @@
-/* --- Estilos generales --- */
+/* Estilos generales */
 body {
-  background-color: #e6f2e6; /* Verde claro */
+  background-color: #d6e7cf;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2a7a2a;
   margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
+  padding: 0;
 }
 
-/* Contenedor principal para centrar todo verticalmente */
+/* Contenedor general */
 .app-container {
-  max-width: 700px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* Encabezado */
+.app-header {
   text-align: center;
+  margin-bottom: 2rem;
 }
 
-/* Título de la app, centrado */
-.titulo-app {
-  color: #2a7a2a; /* Verde oscuro */
-  margin-bottom: 15px;
+.app-header h1 {
+  font-size: 2.8rem;
   font-weight: 700;
+  color: #2a7a2a;
+  margin-top: 12px;
 }
 
-/* Imagen del encabezado - ancho máximo igual al formulario */
-.encabezado-img {
+/* Imagen de portada */
+.app-banner {
   width: 100%;
   max-width: 700px;
   height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
-  border-radius: 10px;
-  object-fit: cover;
 }
 
-/* Caja blanca con borde y sombra para formulario */
-.formulario-caja {
-  background-color: #fff;
-  border: 2px solid #2a7a2a;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-  padding: 25px;
-  margin-bottom: 30px;
-}
-
-/* Grid para dos columnas en formulario */
-.formulario-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px 25px;
-}
-
-/* Estilos para etiquetas e inputs dentro de label */
-.formulario-grid label {
+/* Contenedor del formulario y resultados en columna */
+.main-content {
   display: flex;
   flex-direction: column;
-  font-weight: 600;
-  color: #2a7a2a;
-  font-size: 1rem;
-  text-align: left;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
 }
 
-.formulario-grid input,
-.formulario-grid select {
-  margin-top: 7px;
-  padding: 8px 12px;
-  border: 1.8px solid #2a7a2a;
+/* Sección de formulario */
+.form-section {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.form-section form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+/* Etiquetas */
+.form-section label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* Inputs y selects */
+.form-section input,
+.form-section select {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #a5d6a7;
+  border-radius: 6px;
+  background-color: #f9fdf9;
+  color: #2f4f2f;
+}
+
+/* Botón */
+.form-section button {
+  grid-column: span 2;
+  padding: 0.8rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
   border-radius: 6px;
   font-size: 1rem;
-  outline-offset: 2px;
-  transition: border-color 0.3s ease;
-}
-
-.formulario-grid input:focus,
-.formulario-grid select:focus {
-  border-color: #5bb75b;
-}
-
-/* Botón estilo ecológico y que ocupe ambas columnas */
-.formulario-grid button {
-  grid-column: 1 / -1;
-  background-color: #2a7a2a;
-  color: #fff;
-  border: none;
-  padding: 12px 0;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
-.formulario-grid button:hover {
-  background-color: #5bb75b;
+.form-section button:hover {
+  background-color: #388e3c;
 }
 
-/* Resultados - misma caja y estilo que formulario */
-.resultados-container {
-  max-width: 700px;
-  margin: 0 auto 40px auto;
-  text-align: center;
+/* Resultados */
+.resultados-section {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(139, 195, 74, 0.2);
 }
 
 .resultado-card {
   background-color: #fff;
-  border: 2px solid #2a7a2a;
-  border-radius: 10px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
-  padding: 25px;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 0 0 1.5px rgba(42, 122, 42, 0.15), 0 10px 18px rgba(42, 122, 42, 0.12);
   color: #2a7a2a;
-  text-align: left;
+  text-align: justifyS;
+  box-sizing: border-box;
 }
+
+.titulo-add h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #2a7a2a;
+  margin-top: 12px;
+  text-align: center;
+
+}
+
 
 .resultado-card h2 {
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
+  font-weight: 700;
+
 }
 
-.resultado-card h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+.resultado-card p,
+.resultado-card ul {
+  margin-top: 8px;
+  margin-bottom: 16px;
+  line-height: 1.5;
 }
 
 .resultado-card ul {
-  margin: 0 0 15px 18px;
-  padding: 0;
-}
-
-.resultado-card p {
-  margin: 6px 0;
+  padding-left: 20px;
 }
 
 .resaltar {
+  color: #3f8f3f;
   font-weight: 700;
-  color: #4caf50;
 }
 
+/* Botón de PDF */
 .btn-pdf {
   background-color: #2a7a2a;
   color: white;
+  font-weight: 700;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 16px;
   border-radius: 8px;
-  font-weight: 600;
   cursor: pointer;
-  margin-top: 20px;
-  display: block;
-  width: 100%;
-  max-width: 250px;
-  margin-left: auto;
-  margin-right: auto;
   transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
 .btn-pdf:hover {
-  background-color: #5bb75b;
+  background-color: #3f8f3f;
+}
+
+/* Responsive */
+@media screen and (max-width: 700px) {
+  .form-section form {
+    grid-template-columns: 1fr;
+  }
+
+  .app-banner {
+    max-width: 100%;
+  }
 }
